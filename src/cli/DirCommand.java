@@ -1,11 +1,14 @@
 package cli;
 
+import explorer.SystemExplorer;
 import main.App;
-import main.Config;
 
 public class DirCommand extends Command {
 
-    public DirCommand() {
+    private SystemExplorer sysExplorer;
+
+    public DirCommand(SystemExplorer sysExplorer) {
+        this.sysExplorer = sysExplorer;
         this.name = "dir";
         this.requiredNumArgs = 1;
     }
@@ -18,7 +21,8 @@ public class DirCommand extends Command {
             App.printErr("Wrong number of command arguments");
             return;
         }
-        System.out.println(Config.MAX_ROW_SIZE);
+        
+        sysExplorer.addDirectory(args);
     }
 
 }

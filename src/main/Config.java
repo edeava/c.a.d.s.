@@ -19,7 +19,7 @@ public class Config {
             MAX_FILE_CHUNK = Integer.parseInt(properties.getProperty("maximum_file_chunk_size", "1024"));
             MAX_ROW_SIZE = Integer.parseInt(properties.getProperty("maximum_rows_size", "3"));
             START_DIR = properties.getProperty("start_dir", "/");
-            EXPLORER_TIMEOUT = Long.parseLong(properties.getProperty("timeout", "60000"));
+            EXPLORER_TIMEOUT = Long.parseLong(properties.getProperty("sys_explorer_sleep_time", "60000"));
         } catch (IOException e) {
             throw new RuntimeException("Failed to load properties from " + CONFIG_FILE, e);
         }

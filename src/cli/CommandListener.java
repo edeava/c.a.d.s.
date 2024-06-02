@@ -1,24 +1,26 @@
 package cli;
 
+import explorer.SystemExplorer;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Queue;
 import java.util.Scanner;
-import java.util.concurrent.ConcurrentLinkedQueue;
 import main.App;
-import task.Task;
+import main.Config;
+import task.TaskQueue;
 
 public class CommandListener implements Runnable {
 
-    private static final Queue<Task> taskQueue = new ConcurrentLinkedQueue<>();
+    private final TaskQueue taskQueue = new TaskQueue();
+    private final SystemExplorer systemExplorer = new SystemExplorer(Config.START_DIR, taskQueue);
 
     private final List<Command> commandList;
     private volatile boolean shouldRun = true;
 
     public CommandListener() {
+        systemExplorer.start();
         this.commandList = new ArrayList<>();
         this.commandList.add(new ClearCommand());
-        this.commandList.add(new DirCommand());
+        this.commandList.add(new DirCommand(systemExplorer));
         this.commandList.add(new InfoCommand());
         this.commandList.add(new MultiplyCommand());
         this.commandList.add(new SaveCommand());
@@ -45,6 +47,8 @@ public class CommandListener implements Runnable {
             } else if(nameFrom != line.length()){
                 args = line.substring(nameFrom);
             }
+            args = args.trim();
+            optionalArgs = optionalArgs.trim();
 
             Boolean commandExists = false;
             for(Command cmd : commandList){
