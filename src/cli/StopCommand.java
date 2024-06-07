@@ -11,10 +11,13 @@ public class StopCommand extends Command{
 
     @Override
     public void execute(String args, String optionalArgs) {
-        if(checkArgs(args)){
+        if(!checkArgs(args)){
             App.printErr("Wrong number of command arguments");
             return;
         }
+        // System.out.println(args);
+        // System.out.println(optionalArgs);
+        //poison
         System.out.println("STOP");
     }
 

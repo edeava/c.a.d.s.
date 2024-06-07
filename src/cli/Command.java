@@ -1,6 +1,7 @@
 package cli;
 
 import java.util.ArrayList;
+import matrix.MatrixBrain;
 
 public abstract class Command {
     ArrayList<String> supportedOptionalArgs;
@@ -8,6 +9,7 @@ public abstract class Command {
     Integer requiredNumArgs;
 
     String name;
+    MatrixBrain brain;
 
     
     abstract  void execute(String args, String optionalArgs);
@@ -15,7 +17,7 @@ public abstract class Command {
     boolean checkArgs(String args){
         String[] commandArgs = args.split(",");
         System.out.println("Command arg num:" + commandArgs.length);
-        return commandArgs.length == requiredNumArgs;
+        return commandArgs.length >= requiredNumArgs;
     }
     
     public String getName(){

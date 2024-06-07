@@ -6,6 +6,10 @@ import java.util.List;
 import java.util.Scanner;
 import main.App;
 import main.Config;
+import matrix.MatrixBrain;
+import matrix.MatrixExtractor;
+import matrix.MatrixMultiplier;
+import task.TaskCoordinator;
 import task.TaskQueue;
 
 public class CommandListener implements Runnable {
@@ -15,15 +19,25 @@ public class CommandListener implements Runnable {
 
     private final List<Command> commandList;
     private volatile boolean shouldRun = true;
+    private MatrixBrain brain;
+    private MatrixExtractor extractor;
+    private MatrixMultiplier multiplier;
+    private TaskCoordinator coordinator;
 
     public CommandListener() {
+        this.brain = new MatrixBrain(taskQueue);
+        this.extractor = new MatrixExtractor(brain);
+        this.multiplier = new MatrixMultiplier(brain);
+        this.coordinator = new TaskCoordinator(taskQueue, extractor, multiplier);
+        Thread coordinatorThread = new Thread(coordinator);
         systemExplorer.start();
+        coordinatorThread.start();
         this.commandList = new ArrayList<>();
-        this.commandList.add(new ClearCommand());
+        this.commandList.add(new ClearCommand(brain, systemExplorer));
         this.commandList.add(new DirCommand(systemExplorer));
-        this.commandList.add(new InfoCommand());
+        this.commandList.add(new InfoCommand(brain));
         this.commandList.add(new MultiplyCommand());
-        this.commandList.add(new SaveCommand());
+        this.commandList.add(new SaveCommand(brain));
         this.commandList.add(new StopCommand());
     }
 

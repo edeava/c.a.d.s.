@@ -51,10 +51,10 @@ public class SystemExplorer {
                     if(rixFiles.containsKey(filePath) && (rixFiles.get(filePath) >= lastModified)){
                         continue;
                     }
-                    System.out.println("Changed:" + filePath);
                     rixFiles.put(filePath, lastModified);
                     try {
                         taskQueue.push(new CreateTask(filePath));
+                        App.printMsg("Exploring:" + filePath);
                     } catch (InterruptedException ex) {
                         App.printErr(ex.getMessage());
                     }
@@ -79,5 +79,11 @@ public class SystemExplorer {
 
     public void stop() {
         timer.cancel();
+    }
+
+    public void removeFile(String path){
+        if(rixFiles.containsKey(path)){
+            rixFiles.remove(path);
+        }
     }
 }

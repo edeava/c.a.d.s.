@@ -49,7 +49,7 @@ public class MultiplyTask extends RecursiveTask<Matrix> implements Task{
     protected Matrix compute() {
         int len1 = (endMat1 - startMat1);
         int len2 = (endMat2 - startMat2);
-        Matrix result = new Matrix(resultName, mat1.getCols(), mat2.getRows());
+        Matrix result = new Matrix(resultName, mat1.getCols(), mat2.getRows(), "");
         if(len1 <= Config.MAX_ROW_SIZE && len2 <= Config.MAX_ROW_SIZE){
             return multiply(startMat1, endMat1, startMat2, endMat2, mat1.getRows());
         } else if(len1 > Config.MAX_ROW_SIZE){
@@ -79,7 +79,7 @@ public class MultiplyTask extends RecursiveTask<Matrix> implements Task{
     }
 
     private Matrix multiply(int mat1Start, int mat1End, int mat2Start, int mat2End, int length){
-        Matrix result = new Matrix(this.resultName, this.mat1.getCols(), this.mat2.getRows());
+        Matrix result = new Matrix(this.resultName, this.mat1.getCols(), this.mat2.getRows(), "");
         for(int i = mat1Start; i < mat1End; i++){
             for(int j = mat2Start; j < mat2End; j++){
                 BigInteger mulResult = BigInteger.ZERO;
@@ -91,6 +91,9 @@ public class MultiplyTask extends RecursiveTask<Matrix> implements Task{
         }
 
         return result;
+    }
+    public String getRestultName(){
+        return this.resultName;
     }
 
 }

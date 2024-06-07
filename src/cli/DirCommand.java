@@ -21,6 +21,8 @@ public class DirCommand extends Command {
             App.printErr("Wrong number of command arguments");
             return;
         }
+        // System.out.println(args);
+        // System.out.println(optionalArgs);
         
         sysExplorer.addDirectory(args);
     }
